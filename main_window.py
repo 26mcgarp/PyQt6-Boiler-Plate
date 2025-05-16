@@ -21,7 +21,7 @@ class MainWindow(QMainWindow):
         """
         Connect UI signals to the corresponding slots.
         """
-        pass  # Add signal-slot connections here, e.g., button.clicked.connect(self.some_function)
+        pass  # Add signal-slot connections here, e.g., button.clicked.connect(self.some_function) 
 
     # ---- SLOTS ---- #
     """
