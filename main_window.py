@@ -16,6 +16,7 @@ class MainWindow(QMainWindow):
 
         # --- connect signals to slots
         self.signals()
+        #1
 
     def signals(self):
         """
