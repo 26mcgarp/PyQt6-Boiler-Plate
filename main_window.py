@@ -9,7 +9,7 @@ class MainWindow(QMainWindow):
         Initialize the main window and set up the UI.
         """
         super().__init__()
-        uic.loadUi("scoreboard.ui", self)
+        uic.loadUi("Scoreboard.ui", self)
         # --- initialise variables
         self.timer = QTimer()
         self.time = QTime(0, 0, 0)
