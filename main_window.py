@@ -63,7 +63,7 @@ class MainWindow(QMainWindow):
         seconds = self.spinBox_seconds.value()
         return QTime(hours, minutes, seconds)
     
-    def 
+    
 
 if __name__ == "__main__":
     app = QApplication(sys.argv)
