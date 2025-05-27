@@ -304,6 +304,16 @@
    </item>
   </layout>
  </widget>
+ <tabstops>
+  <tabstop>lineEdit_team1_name</tabstop>
+  <tabstop>lineEdit_team2_name</tabstop>
+  <tabstop>spinBox_hours</tabstop>
+  <tabstop>spinBox_minutes</tabstop>
+  <tabstop>spinBox_seconds</tabstop>
+  <tabstop>spinBox_score1</tabstop>
+  <tabstop>spinBox_score2</tabstop>
+  <tabstop>spinBox_score3</tabstop>
+ </tabstops>
  <resources/>
  <connections>
   <connection>
@@ -313,8 +323,8 @@
    <slot>accept()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>248</x>
-     <y>254</y>
+     <x>254</x>
+     <y>423</y>
     </hint>
     <hint type="destinationlabel">
      <x>157</x>
@@ -329,8 +339,8 @@
    <slot>reject()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>316</x>
-     <y>260</y>
+     <x>322</x>
+     <y>423</y>
     </hint>
     <hint type="destinationlabel">
      <x>286</x>

@@ -38,7 +38,9 @@ class NewValues(QDialog):
             "seconds": self.spinBox_seconds.value(),
             "score1": self.spinBox_score1.value(),
             "score2": self.spinBox_score2.value(),
-            "score3": self.spinBox_score3.value()
+            "score3": self.spinBox_score3.value(),
+            "team1_score": 0,
+            "team2_score": 0
         }
         return self.data
     
@@ -73,6 +75,15 @@ class MainWindow(QMainWindow):
         self.actionOpen.triggered.connect(self.open_scoreboard)
         self.actionNew.triggered.connect(self.open_dialoge)
         self.actionEdit.triggered.connect(self.edit_values)
+        self.pushButton_team1_score1.clicked.connect(self.add_score)
+        self.pushButton_team2_score1.clicked.connect(self.add_score)
+        self.pushButton_team1_score2.clicked.connect(self.add_score)
+        self.pushButton_team2_score2.clicked.connect(self.add_score)
+        self.pushButton_team1_score3.clicked.connect(self.add_score)
+        self.pushButton_team2_score3.clicked.connect(self.add_score)
+        self.pushButton_reset_team1.clicked.connect(self.reset_team1_score)
+        self.pushButton_reset_team2.clicked.connect(self.reset_team2_score)
+        self.pushButton_reset_all.clicked.connect(self.reset_scores)
 
         # check file status
         self.file = False
@@ -115,6 +126,10 @@ class MainWindow(QMainWindow):
         self.pushButton_team2_score3.setEnabled(self.button_status)
         self.label_error.setHidden(self.button_status)
         self.actionEdit.setEnabled(self.button_status)
+        self.actionSave_2.setEnabled(self.button_status)
+        self.pushButton_reset_team1.setEnabled(self.button_status)
+        self.pushButton_reset_team2.setEnabled(self.button_status)
+        self.pushButton_reset_all.setEnabled(self.button_status)
 
     # timer
     def show_time(self):
@@ -153,7 +168,9 @@ class MainWindow(QMainWindow):
             "seconds": self.seconds,
             "score1": self.score1,
             "score2": self.score2,
-            "score3": self.score3
+            "score3": self.score3,
+            "team1_score": self.team1_score,
+            "team2_score": self.team2_score
         }
         suggested_file_name = f"{self.data["team1_name"]}_vs_{self.data["team2_name"]}.json"
         file_path, _= QFileDialog.getSaveFileName(self,
@@ -203,8 +220,42 @@ class MainWindow(QMainWindow):
         self.hours = data["hours"]
         self.minutes = data["minutes"]
         self.seconds = data["seconds"]
+        self.team1_score = data["team1_score"]
+        self.team2_score = data["team2_score"]
         self.show_time()
         self.file = True
+
+    # scoring
+    def add_score(self):
+        sender = self.sender()
+        if sender == self.pushButton_team1_score1:
+            self.team1_score += self.score1
+        elif sender == self.pushButton_team1_score2:
+            self.team1_score += self.score2
+        elif sender == self.pushButton_team1_score3:
+            self.team1_score += self.score3
+        elif sender == self.pushButton_team2_score1:
+            self.team2_score += self.score1
+        elif sender == self.pushButton_team2_score2:
+            self.team2_score += self.score2
+        elif sender == self.pushButton_team2_score3:
+            self.team2_score += self.score3
+        self.label_team1_score.setText(str(self.team1_score))
+        self.label_team2_score.setText(str(self.team2_score))
+
+    def reset_scores(self):
+        self.team1_score = 0
+        self.team2_score = 0
+        self.label_team1_score.setText(str(self.team1_score))
+        self.label_team2_score.setText(str(self.team2_score))
+    
+    def reset_team1_score(self):
+        self.team1_score = 0
+        self.label_team1_score.setText(str(self.team1_score))
+    
+    def reset_team2_score(self):
+        self.team2_score = 0
+        self.label_team2_score.setText(str(self.team2_score))
 
 if __name__ == "__main__":
     app = QApplication(sys.argv)
