@@ -164,7 +164,7 @@ class MainWindow(QMainWindow):
                 json.dump(self.data, f, indent=4)
 
     def open_scoreboard(self):
-        file_path = QFileDialog.getOpenFileName(self,
+        file_path, _= QFileDialog.getOpenFileName(self,
                                                   "Open Scoreboard Values",
                                                   "",
                                                   "JSON Files(*.json)")
