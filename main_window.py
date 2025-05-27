@@ -11,29 +11,34 @@ class NewValues(QDialog):
     def __init__(self, parent=None):
         super().__init__(parent)
         uic.loadUi("change values.ui", self)
+        self.parent = parent
+        self.spinBox_hours.setRange(0, 23)
+        self.spinBox_minutes.setRange(0, 59)
+        self.spinBox_seconds.setRange(0, 59)
+        self.spinBox_score1.setRange(-99, 99)
+        self.spinBox_score2.setRange(-99, 99)
+        self.spinBox_score3.setRange(-99, 99)
 
+    def set_for_edit(self):
+        self.lineEdit_team1_name.setText(self.parent.label_team1_name.text())
+        self.lineEdit_team2_name.setText(self.parent.label_team2_name.text())
+        self.spinBox_hours.setValue(self.parent.hours)
+        self.spinBox_minutes.setValue(self.parent.minutes)
+        self.spinBox_seconds.setValue(self.parent.seconds)
+        self.spinBox_score1.setValue(self.parent.score1)
+        self.spinBox_score2.setValue(self.parent.score2)
+        self.spinBox_score3.setValue(self.parent.score3)
+        
     def get_values(self):
-        if self.radioButton_score1_subtract.isChecked():
-            self.score1 = self.spinBox_score1.value()*-1
-        elif self.radioButton_score1_add.isChecked():
-            self.score1 = self.spinBox_score1.value()
-        if self.radioButton_score2_subtract.isChecked():
-            self.score2 = self.spinBox_score2.value()*-1
-        elif self.radioButton_score2_add.isChecked():
-            self.score2 = self.spinBox_score2.value()
-        if self.radioButton_score3_subtract.isChecked():
-            self.score3 = self.spinBox_score3.value()*-1
-        elif self.radioButton_score3_add.isChecked():
-            self.score3 = self.spinBox_score3.value()
         self.data = {
             "team1_name": self.lineEdit_team1_name.text(),
             "team2_name": self.lineEdit_team2_name.text(),
             "hours": self.spinBox_hours.value(),
             "minutes": self.spinBox_minutes.value(),
             "seconds": self.spinBox_seconds.value(),
-            "score1": self.score1,
-            "score2": self.score2,
-            "score3": self.score3
+            "score1": self.spinBox_score1.value(),
+            "score2": self.spinBox_score2.value(),
+            "score3": self.spinBox_score3.value()
         }
         return self.data
     
@@ -67,12 +72,13 @@ class MainWindow(QMainWindow):
         self.actionSave_2.triggered.connect(self.save_scoreboard)
         self.actionOpen.triggered.connect(self.open_scoreboard)
         self.actionNew.triggered.connect(self.open_dialoge)
+        self.actionEdit.triggered.connect(self.edit_values)
 
         # check file status
         self.file = False
         self.status_timer = QTimer(self)
         self.status_timer.timeout.connect(self.update_button_status)
-        self.status_timer.start(500) # Check every 500 ms
+        self.status_timer.start(100)
 
         # score
         self.team1_score = 0
@@ -92,27 +98,23 @@ class MainWindow(QMainWindow):
     """
     def update_button_status(self):
         if not self.file:
-            self.pushButton_start.setEnabled(False)
-            self.pushButton_pause.setEnabled(False)
-            self.pushButton_reset.setEnabled(False)
-            self.pushButton_team1_score1.setEnabled(False)
-            self.pushButton_team2_score1.setEnabled(False)
-            self.pushButton_team1_score2.setEnabled(False)
-            self.pushButton_team2_score2.setEnabled(False)
-            self.pushButton_team1_score3.setEnabled(False)
-            self.pushButton_team2_score3.setEnabled(False)
-            self.label_error.setHidden(False)
+            self.button_status = False
         else:
-            self.pushButton_start.setEnabled(True)
-            self.pushButton_pause.setEnabled(True)
-            self.pushButton_reset.setEnabled(True)
-            self.pushButton_team1_score1.setEnabled(True)
-            self.pushButton_team2_score1.setEnabled(True)
-            self.pushButton_team1_score2.setEnabled(True)
-            self.pushButton_team2_score2.setEnabled(True)
-            self.pushButton_team1_score3.setEnabled(True)
-            self.pushButton_team2_score3.setEnabled(True)
-            self.label_error.setHidden(True)
+            self.button_status = True
+        self.change_button_status(self.button_status)
+    
+    def change_button_status(self, button_status):
+        self.pushButton_start.setEnabled(self.button_status)
+        self.pushButton_pause.setEnabled(self.button_status)
+        self.pushButton_reset.setEnabled(self.button_status)
+        self.pushButton_team1_score1.setEnabled(self.button_status)
+        self.pushButton_team2_score1.setEnabled(self.button_status)
+        self.pushButton_team1_score2.setEnabled(self.button_status)
+        self.pushButton_team2_score2.setEnabled(self.button_status)
+        self.pushButton_team1_score3.setEnabled(self.button_status)
+        self.pushButton_team2_score3.setEnabled(self.button_status)
+        self.label_error.setHidden(self.button_status)
+        self.actionEdit.setEnabled(self.button_status)
 
     # timer
     def show_time(self):
@@ -131,6 +133,7 @@ class MainWindow(QMainWindow):
     def reset_timer(self):
         self.time = QTime(self.hours, self.minutes, self.seconds)
         self.show_time()
+        self.running = False
 
     def update_timer(self):
         if self.running:
@@ -142,11 +145,9 @@ class MainWindow(QMainWindow):
     
     # new values
     def save_scoreboard(self):
-        self.team1_name = self.label_team1_name.text()
-        self.team2_name = self.label_team2_name.text()
         self.data = {
-            "team1_name": self.team1_name,
-            "team2_name": self.team2_name,
+            "team1_name": self.label_team1_name.text(),
+            "team2_name": self.label_team2_name.text(),
             "hours": self.hours,
             "minutes": self.minutes,
             "seconds": self.seconds,
@@ -154,7 +155,7 @@ class MainWindow(QMainWindow):
             "score2": self.score2,
             "score3": self.score3
         }
-        suggested_file_name = f"{self.team1_name}_vs_{self.team2_name}.json"
+        suggested_file_name = f"{self.data["team1_name"]}_vs_{self.data["team2_name"]}.json"
         file_path, _= QFileDialog.getSaveFileName(self,
                                                 "Save Scoreboard Values",
                                                 suggested_file_name,
@@ -171,26 +172,17 @@ class MainWindow(QMainWindow):
         if file_path:
             with open(file_path, "r") as f:
                 data = json.load(f)
-                self.label_team1_name.setText(data["team1_name"])
-                self.label_team2_name.setText(data["team2_name"])
-                self.score1 = data["score1"]
-                self.score2 = data["score2"]
-                self.score3 = data["score3"]
-                self.pushButton_team1_score1.setText(str(self.score1))
-                self.pushButton_team2_score1.setText(str(self.score1))
-                self.pushButton_team1_score2.setText(str(self.score2))
-                self.pushButton_team2_score2.setText(str(self.score2))
-                self.pushButton_team1_score3.setText(str(self.score3))
-                self.pushButton_team2_score3.setText(str(self.score3))
-                self.time = QTime(data["hours"], data["minutes"], data["seconds"])
-                self.hours = data["hours"]
-                self.minutes = data["minutes"]
-                self.seconds = data["seconds"]
-                self.show_time()
-                self.file = True
+                self.set_values(data)
 
     def open_dialoge(self):
         dialog = NewValues(self)
+        if dialog.exec():
+            data = dialog.get_values()
+            self.set_values(data)
+
+    def edit_values(self):
+        dialog = NewValues(self)
+        dialog.set_for_edit()
         if dialog.exec():
             data = dialog.get_values()
             self.set_values(data)
@@ -213,7 +205,6 @@ class MainWindow(QMainWindow):
         self.seconds = data["seconds"]
         self.show_time()
         self.file = True
-
 
 if __name__ == "__main__":
     app = QApplication(sys.argv)
