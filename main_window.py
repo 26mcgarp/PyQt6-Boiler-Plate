@@ -222,6 +222,10 @@ class MainWindow(QMainWindow):
         self.seconds = data["seconds"]
         self.team1_score = data["team1_score"]
         self.team2_score = data["team2_score"]
+        self.team1_name = data["team1_name"]
+        self.team2_name = data["team2_name"]
+        self.pushButton_reset_team1.setText(f"Reset {self.team1_name}")
+        self.pushButton_reset_team2.setText(f"Reset {self.team2_name}")
         self.show_time()
         self.file = True
 
