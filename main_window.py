@@ -10,20 +10,20 @@ from PyQt6.QtMultimedia import QSoundEffect
 class NewValues(QDialog):
     def __init__(self, parent=None):
         super().__init__(parent)
-        uic.loadUi("set values.ui", self)
+        uic.loadUi("change values.ui", self)
 
     def get_values(self):
-        if self.radioButton_score1_subtract.toggled():
+        if self.radioButton_score1_subtract.isChecked():
             self.score1 = self.spinBox_score1.value()*-1
-        elif self.radioButton_score1_add.toggled():
+        elif self.radioButton_score1_add.isChecked():
             self.score1 = self.spinBox_score1.value()
-        elif self.radioButton_score2_subtract.toggled():
+        if self.radioButton_score2_subtract.isChecked():
             self.score2 = self.spinBox_score2.value()*-1
-        elif self.radioButton_score2_add.toggled():
+        elif self.radioButton_score2_add.isChecked():
             self.score2 = self.spinBox_score2.value()
-        elif self.radioButton_score3_subtract.toggled():
+        if self.radioButton_score3_subtract.isChecked():
             self.score3 = self.spinBox_score3.value()*-1
-        elif self.radioButton_score3_add.toggled():
+        elif self.radioButton_score3_add.isChecked():
             self.score3 = self.spinBox_score3.value()
         self.data = {
             "team1_name": self.lineEdit_team1_name.text(),
@@ -35,6 +35,7 @@ class NewValues(QDialog):
             "score2": self.score2,
             "score3": self.score3
         }
+        return self.data
     
 
 class MainWindow(QMainWindow):
@@ -63,7 +64,7 @@ class MainWindow(QMainWindow):
         self.pushButton_pause.clicked.connect(self.pause_timer)
         self.pushButton_reset.clicked.connect(self.reset_timer)
         self.timer.timeout.connect(self.update_timer)
-        self.actionSave.triggered.connect(self.save_new_scoreboard)
+        self.actionSave_2.triggered.connect(self.save_scoreboard)
         self.actionOpen.triggered.connect(self.open_scoreboard)
         self.actionNew.triggered.connect(self.open_dialoge)
 
@@ -72,6 +73,12 @@ class MainWindow(QMainWindow):
         self.status_timer = QTimer(self)
         self.status_timer.timeout.connect(self.update_button_status)
         self.status_timer.start(500) # Check every 500 ms
+
+        # score
+        self.team1_score = 0
+        self.team2_score = 0
+        self.label_team1_score.setText(str(self.team1_score))
+        self.label_team2_score.setText(str(self.team2_score))
 
     def signals(self):
         """
@@ -113,7 +120,7 @@ class MainWindow(QMainWindow):
         self.label_timer.setText(formatted_time)
 
     def start_timer(self):
-        self.time = QTime(self.hours, self.minutes, self.seconds)
+        #self.time = QTime(self.hours, self.minutes, self.seconds)
         self.timer.start(1000)
         self.running = True
         self.show_time()
@@ -134,24 +141,9 @@ class MainWindow(QMainWindow):
                 self.alarm.play()
     
     # new values
-    def save_new_scoreboard(self):
-        self.team1_name = self.lineEdit_team1_name.text()
-        self.team2_name = self.lineEdit_team2_name.text()
-        self.hours = self.spinBox_hours.value()
-        self.minutes = self.spinBox_minutes.value()
-        self.seconds = self.spinBox_seconds.value()
-        if self.radioButton_score1_subtract.toggled():
-            self.score1 = self.spinBox_score1.value()*-1
-        elif self.radioButton_score1_add.toggled():
-            self.score1 = self.spinBox_score1.value()
-        elif self.radioButton_score2_subtract.toggled():
-            self.score2 = self.spinBox_score2.value()*-1
-        elif self.radioButton_score2_add.toggled():
-            self.score2 = self.spinBox_score2.value()
-        elif self.radioButton_score3_subtract.toggled():
-            self.score3 = self.spinBox_score3.value()*-1
-        elif self.radioButton_score3_add.toggled():
-            self.score3 = self.spinBox_score3.value()
+    def save_scoreboard(self):
+        self.team1_name = self.label_team1_name.text()
+        self.team2_name = self.label_team2_name.text()
         self.data = {
             "team1_name": self.team1_name,
             "team2_name": self.team2_name,
@@ -163,7 +155,7 @@ class MainWindow(QMainWindow):
             "score3": self.score3
         }
         suggested_file_name = f"{self.team1_name}_vs_{self.team2_name}.json"
-        file_path = QFileDialog.getSaveFileName(self,
+        file_path, _= QFileDialog.getSaveFileName(self,
                                                 "Save Scoreboard Values",
                                                 suggested_file_name,
                                                 "JSON Files(*.json)")
@@ -179,69 +171,49 @@ class MainWindow(QMainWindow):
         if file_path:
             with open(file_path, "r") as f:
                 data = json.load(f)
-                self.lineEdit_team1_name.setText(data["team1_name"])
-                self.lineEdit_team2_name.setText(data["team2_name"])
+                self.label_team1_name.setText(data["team1_name"])
+                self.label_team2_name.setText(data["team2_name"])
                 self.score1 = data["score1"]
                 self.score2 = data["score2"]
                 self.score3 = data["score3"]
-                self.team1_score1.setText(str(self.score1))
-                self.team2_score1.setText(str(self.score1))
-                self.team1_score2.setText(str(self.score2))
-                self.team2_score2.setText(str(self.score2))
-                self.team1_score3.setText(str(self.score3))
-                self.team2_score3.setText(str(self.score3))
+                self.pushButton_team1_score1.setText(str(self.score1))
+                self.pushButton_team2_score1.setText(str(self.score1))
+                self.pushButton_team1_score2.setText(str(self.score2))
+                self.pushButton_team2_score2.setText(str(self.score2))
+                self.pushButton_team1_score3.setText(str(self.score3))
+                self.pushButton_team2_score3.setText(str(self.score3))
                 self.time = QTime(data["hours"], data["minutes"], data["seconds"])
-            self.file = True
+                self.hours = data["hours"]
+                self.minutes = data["minutes"]
+                self.seconds = data["seconds"]
+                self.show_time()
+                self.file = True
 
     def open_dialoge(self):
         dialog = NewValues(self)
         if dialog.exec():
-            values = dialog.get_values()
-            self.set_values(values)
+            data = dialog.get_values()
+            self.set_values(data)
 
-    def set_values(self, values):
-        self.lineEdit_team1_name.setText(self.data["team1_name"])
-        self.lineEdit_team2_name.setText(self.data["team2_name"])
-        self.score1 = self.data["score1"]
-        self.score2 = self.data["score2"]
-        self.score3 = self.data["score3"]
-        self.team1_score1.setText(str(self.score1))
-        self.team2_score1.setText(str(self.score1))
-        self.team1_score2.setText(str(self.score2))
-        self.team2_score2.setText(str(self.score2))
-        self.team1_score3.setText(str(self.score3))
-        self.team2_score3.setText(str(self.score3))
-        self.time = QTime(self.data["hours"], self.data["minutes"], self.data["seconds"])
+    def set_values(self, data):
+        self.label_team1_name.setText(data["team1_name"])
+        self.label_team2_name.setText(data["team2_name"])
+        self.score1 = data["score1"]
+        self.score2 = data["score2"]
+        self.score3 = data["score3"]
+        self.pushButton_team1_score1.setText(str(self.score1))
+        self.pushButton_team2_score1.setText(str(self.score1))
+        self.pushButton_team1_score2.setText(str(self.score2))
+        self.pushButton_team2_score2.setText(str(self.score2))
+        self.pushButton_team1_score3.setText(str(self.score3))
+        self.pushButton_team2_score3.setText(str(self.score3))
+        self.time = QTime(data["hours"], data["minutes"], data["seconds"])
+        self.hours = data["hours"]
+        self.minutes = data["minutes"]
+        self.seconds = data["seconds"]
+        self.show_time()
+        self.file = True
 
-    
-    # score buttons
-    '''
-    def get_score_values(self):
-        self.score1 = self.spinBox_score1.value()
-        if self.radioButton_score1_subtract.toggled:
-            self.score1 = self.score1*-1
-        print(self.score1)
-        self.score2 = self.spinBox_score2.value()
-        if self.radioButton_score2_subtract.toggled:
-            self.score2 = self.score2*-1
-        print(self.score2)
-        self.score3 = self.spinBox_score3.value()
-        if self.radioButton_score3_subtract.toggled:
-            self.score3 = self.score3*-1
-        print(self.score3)
-
-    def update_score_buttons(self):
-        self.get_score_values()
-        self.pushButton_team1_score1.text = self.score1
-        self.pushButton_team2_score1.text = self.score1
-        self.pushButton_team1_score2.text = self.score2
-        self.pushButton_team2_score2.text = self.score2
-        self.pushButton_team1_score3.text = self.score3
-        self.pushButton_team2_score3.text = self.score3
-        print(self.pushButton_team2_score3.text)
-        print(self.spinBox_score3.value())
-        '''
-    
 
 if __name__ == "__main__":
     app = QApplication(sys.argv)

@@ -93,7 +93,13 @@
       </widget>
      </item>
      <item row="1" column="1">
-      <widget class="QLineEdit" name="lineEdit_team2_name"/>
+      <widget class="QLineEdit" name="lineEdit_team2_name">
+       <property name="font">
+        <font>
+         <pointsize>12</pointsize>
+        </font>
+       </property>
+      </widget>
      </item>
     </layout>
    </item>
@@ -259,7 +265,7 @@
       </widget>
      </item>
      <item row="0" column="2">
-      <widget class="QRadioButton" name="radioButton_score2_subtract">
+      <widget class="QRadioButton" name="radioButton_score1_subtract">
        <property name="font">
         <font>
          <pointsize>12</pointsize>
@@ -331,7 +337,7 @@
       </widget>
      </item>
      <item row="1" column="2">
-      <widget class="QRadioButton" name="radioButton_score2_subtract_2">
+      <widget class="QRadioButton" name="radioButton_score2_subtract">
        <property name="font">
         <font>
          <pointsize>12</pointsize>

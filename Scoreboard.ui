@@ -54,6 +54,19 @@
     <item>
      <layout class="QHBoxLayout" name="horizontalLayout">
       <item>
+       <spacer name="horizontalSpacer_4">
+        <property name="orientation">
+         <enum>Qt::Horizontal</enum>
+        </property>
+        <property name="sizeHint" stdset="0">
+         <size>
+          <width>40</width>
+          <height>20</height>
+         </size>
+        </property>
+       </spacer>
+      </item>
+      <item>
        <layout class="QVBoxLayout" name="verticalLayout_4">
         <item>
          <widget class="QLabel" name="label_team1_name">
@@ -77,7 +90,7 @@
          </widget>
         </item>
         <item>
-         <widget class="QLabel" name="label_team_1_score">
+         <widget class="QLabel" name="label_team1_score">
           <property name="sizePolicy">
            <sizepolicy hsizetype="Minimum" vsizetype="Minimum">
             <horstretch>0</horstretch>
@@ -355,7 +368,7 @@
          </widget>
         </item>
         <item>
-         <widget class="QLabel" name="label_team_2_score">
+         <widget class="QLabel" name="label_team2_score">
           <property name="font">
            <font>
             <pointsize>40</pointsize>
@@ -431,6 +444,19 @@
          </layout>
         </item>
        </layout>
+      </item>
+      <item>
+       <spacer name="horizontalSpacer_3">
+        <property name="orientation">
+         <enum>Qt::Horizontal</enum>
+        </property>
+        <property name="sizeHint" stdset="0">
+         <size>
+          <width>40</width>
+          <height>20</height>
+         </size>
+        </property>
+       </spacer>
       </item>
      </layout>
     </item>
@@ -599,10 +625,10 @@
      <string>File</string>
     </property>
     <addaction name="actionSave_2"/>
-    <addaction name="actionOpen_2"/>
+    <addaction name="actionOpen"/>
     <addaction name="separator"/>
     <addaction name="actionNew"/>
-    <addaction name="actionOpen"/>
+    <addaction name="actionEdit"/>
    </widget>
    <addaction name="menuFile"/>
   </widget>
@@ -612,7 +638,7 @@
     <string>New</string>
    </property>
   </action>
-  <action name="actionOpen">
+  <action name="actionEdit">
    <property name="text">
     <string>Edit</string>
    </property>
@@ -622,7 +648,7 @@
     <string>Save</string>
    </property>
   </action>
-  <action name="actionOpen_2">
+  <action name="actionOpen">
    <property name="text">
     <string>Open</string>
    </property>
