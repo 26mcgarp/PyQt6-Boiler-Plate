@@ -5,8 +5,8 @@ from PyQt6 import uic
 from PyQt6.QtCore import QTimer, QTime, QUrl
 from PyQt6.QtMultimedia import QSoundEffect
 
-# connect new values dialog
 
+# connect new values dialog
 class NewValues(QDialog):
     def __init__(self, parent=None):
         super().__init__(parent)
@@ -28,7 +28,7 @@ class NewValues(QDialog):
         self.spinBox_score1.setValue(self.parent.score1)
         self.spinBox_score2.setValue(self.parent.score2)
         self.spinBox_score3.setValue(self.parent.score3)
-        
+
     def get_values(self):
         self.data = {
             "team1_name": self.lineEdit_team1_name.text(),
@@ -40,10 +40,10 @@ class NewValues(QDialog):
             "score2": self.spinBox_score2.value(),
             "score3": self.spinBox_score3.value(),
             "team1_score": 0,
-            "team2_score": 0
+            "team2_score": 0,
         }
         return self.data
-    
+
 
 class MainWindow(QMainWindow):
     def __init__(self):
@@ -65,15 +65,32 @@ class MainWindow(QMainWindow):
         self.alarm.setLoopCount(1)
         self.alarm.setVolume(0.5)
 
-        # --- connect signals to slots 
+        # --- connect signals to slots
         self.signals()
+
+        # check file status
+        self.file = False
+        self.status_timer = QTimer(self)
+        self.status_timer.timeout.connect(self.update_button_status)
+        self.status_timer.start(100)
+
+        # set scores
+        self.team1_score = 0
+        self.team2_score = 0
+        self.label_team1_score.setText(str(self.team1_score))
+        self.label_team2_score.setText(str(self.team2_score))
+
+    def signals(self):
+        """
+        Connect UI signals to the corresponding slots.
+        """
         self.pushButton_start.clicked.connect(self.start_timer)
         self.pushButton_pause.clicked.connect(self.pause_timer)
         self.pushButton_reset.clicked.connect(self.reset_timer)
         self.timer.timeout.connect(self.update_timer)
         self.actionSave_2.triggered.connect(self.save_scoreboard)
         self.actionOpen.triggered.connect(self.open_scoreboard)
-        self.actionNew.triggered.connect(self.open_dialoge)
+        self.actionNew.triggered.connect(self.new_values_dialoge)
         self.actionEdit.triggered.connect(self.edit_values)
         self.pushButton_team1_score1.clicked.connect(self.add_score)
         self.pushButton_team2_score1.clicked.connect(self.add_score)
@@ -85,35 +102,18 @@ class MainWindow(QMainWindow):
         self.pushButton_reset_team2.clicked.connect(self.reset_team2_score)
         self.pushButton_reset_all.clicked.connect(self.reset_scores)
 
-        # check file status
-        self.file = False
-        self.status_timer = QTimer(self)
-        self.status_timer.timeout.connect(self.update_button_status)
-        self.status_timer.start(100)
-
-        # score
-        self.team1_score = 0
-        self.team2_score = 0
-        self.label_team1_score.setText(str(self.team1_score))
-        self.label_team2_score.setText(str(self.team2_score))
-
-    def signals(self):
-        """
-        Connect UI signals to the corresponding slots.
-        """
-        pass  # Add signal-slot connections here, e.g., button.clicked.connect(self.some_function) 
-
     # ---- SLOTS ---- #
     """
     functions that are called from the signals go below here
     """
+
     def update_button_status(self):
         if not self.file:
             self.button_status = False
         else:
             self.button_status = True
         self.change_button_status(self.button_status)
-    
+
     def change_button_status(self, button_status):
         self.pushButton_start.setEnabled(self.button_status)
         self.pushButton_pause.setEnabled(self.button_status)
@@ -137,7 +137,6 @@ class MainWindow(QMainWindow):
         self.label_timer.setText(formatted_time)
 
     def start_timer(self):
-        #self.time = QTime(self.hours, self.minutes, self.seconds)
         self.timer.start(1000)
         self.running = True
         self.show_time()
@@ -157,8 +156,8 @@ class MainWindow(QMainWindow):
             if self.time == QTime(0, 0, 0):
                 self.running = False
                 self.alarm.play()
-    
-    # new values
+
+    # save values
     def save_scoreboard(self):
         self.data = {
             "team1_name": self.label_team1_name.text(),
@@ -170,33 +169,36 @@ class MainWindow(QMainWindow):
             "score2": self.score2,
             "score3": self.score3,
             "team1_score": self.team1_score,
-            "team2_score": self.team2_score
+            "team2_score": self.team2_score,
         }
-        suggested_file_name = f"{self.data["team1_name"]}_vs_{self.data["team2_name"]}.json"
-        file_path, _= QFileDialog.getSaveFileName(self,
-                                                "Save Scoreboard Values",
-                                                suggested_file_name,
-                                                "JSON Files(*.json)")
+        suggested_file_name = (
+            f"{self.data['team1_name']}_vs_{self.data['team2_name']}.json"
+        )
+        file_path, _ = QFileDialog.getSaveFileName(
+            self, "Save Scoreboard Values", suggested_file_name, "JSON Files(*.json)"
+        )
         if file_path:
             with open(file_path, "w") as f:
                 json.dump(self.data, f, indent=4)
 
+    # open scoreboard
     def open_scoreboard(self):
-        file_path, _= QFileDialog.getOpenFileName(self,
-                                                  "Open Scoreboard Values",
-                                                  "",
-                                                  "JSON Files(*.json)")
+        file_path, _ = QFileDialog.getOpenFileName(
+            self, "Open Scoreboard Values", "", "JSON Files(*.json)"
+        )
         if file_path:
             with open(file_path, "r") as f:
                 data = json.load(f)
                 self.set_values(data)
 
-    def open_dialoge(self):
+    # set up new scoreboard
+    def new_values_dialoge(self):
         dialog = NewValues(self)
         if dialog.exec():
             data = dialog.get_values()
             self.set_values(data)
 
+    # edit scoreboard values
     def edit_values(self):
         dialog = NewValues(self)
         dialog.set_for_edit()
@@ -204,6 +206,7 @@ class MainWindow(QMainWindow):
             data = dialog.get_values()
             self.set_values(data)
 
+    # set values of scoreboard
     def set_values(self, data):
         self.label_team1_name.setText(data["team1_name"])
         self.label_team2_name.setText(data["team2_name"])
@@ -252,14 +255,15 @@ class MainWindow(QMainWindow):
         self.team2_score = 0
         self.label_team1_score.setText(str(self.team1_score))
         self.label_team2_score.setText(str(self.team2_score))
-    
+
     def reset_team1_score(self):
         self.team1_score = 0
         self.label_team1_score.setText(str(self.team1_score))
-    
+
     def reset_team2_score(self):
         self.team2_score = 0
         self.label_team2_score.setText(str(self.team2_score))
+
 
 if __name__ == "__main__":
     app = QApplication(sys.argv)
