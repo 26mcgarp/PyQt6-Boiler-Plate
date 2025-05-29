@@ -125,6 +125,9 @@
               <pointsize>20</pointsize>
              </font>
             </property>
+            <property name="toolTip">
+             <string/>
+            </property>
             <property name="text">
              <string>Score 1</string>
             </property>
@@ -573,6 +576,9 @@
           <pointsize>30</pointsize>
          </font>
         </property>
+        <property name="toolTip">
+         <string>Resest Timer</string>
+        </property>
         <property name="text">
          <string>Reset</string>
         </property>
@@ -590,6 +596,9 @@
          <font>
           <pointsize>30</pointsize>
          </font>
+        </property>
+        <property name="toolTip">
+         <string>Pause Timer</string>
         </property>
         <property name="text">
          <string>Pause</string>
@@ -609,6 +618,9 @@
           <pointsize>30</pointsize>
          </font>
         </property>
+        <property name="toolTip">
+         <string>Start Timer</string>
+        </property>
         <property name="text">
          <string>Start</string>
         </property>
@@ -626,6 +638,9 @@
          <font>
           <pointsize>30</pointsize>
          </font>
+        </property>
+        <property name="toolTip">
+         <string>Reset the</string>
         </property>
         <property name="text">
          <string>Reset Team 1</string>
@@ -784,9 +799,4 @@
  </tabstops>
  <resources/>
  <connections/>
- <buttongroups>
-  <buttongroup name="buttonGroup_3"/>
-  <buttongroup name="buttonGroup_2"/>
-  <buttongroup name="buttonGroup"/>
- </buttongroups>
 </ui>

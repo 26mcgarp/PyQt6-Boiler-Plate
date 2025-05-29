@@ -58,19 +58,26 @@ class MainWindow(QMainWindow):
         self.time = QTime(0, 0, 0)
         self.running = False
         self.show_time()
+        self.timer_alarm = QTimer()
+        self.time_alarm = QTime(0, 0, 1)
+        self.timer_alarm.setSingleShot(True)
 
         # alarm
         self.alarm = QSoundEffect()
         self.alarm.setSource(QUrl.fromLocalFile("alarm_sound.wav"))
         self.alarm.setLoopCount(1)
         self.alarm.setVolume(0.5)
+        self.alarm_start = QSoundEffect()
+        self.alarm_start.setSource(QUrl.fromLocalFile("countdown_beeps.wav"))
+        self.alarm_start.setLoopCount(1)
+        self.alarm_start.setVolume(0.5)
 
         # --- connect signals to slots
         self.signals()
 
         # check file status
         self.file = False
-        self.status_timer = QTimer(self)
+        self.status_timer = QTimer()
         self.status_timer.timeout.connect(self.update_button_status)
         self.status_timer.start(100)
 
@@ -84,7 +91,7 @@ class MainWindow(QMainWindow):
         """
         Connect UI signals to the corresponding slots.
         """
-        self.pushButton_start.clicked.connect(self.start_timer)
+        self.pushButton_start.clicked.connect(self.start_countdown)
         self.pushButton_pause.clicked.connect(self.pause_timer)
         self.pushButton_reset.clicked.connect(self.reset_timer)
         self.timer.timeout.connect(self.update_timer)
@@ -101,6 +108,7 @@ class MainWindow(QMainWindow):
         self.pushButton_reset_team1.clicked.connect(self.reset_team1_score)
         self.pushButton_reset_team2.clicked.connect(self.reset_team2_score)
         self.pushButton_reset_all.clicked.connect(self.reset_scores)
+        self.timer_alarm.timeout.connect(self.start_timer)
 
     # ---- SLOTS ---- #
     """
@@ -135,6 +143,10 @@ class MainWindow(QMainWindow):
     def show_time(self):
         formatted_time = self.time.toString("h:mm:ss")
         self.label_timer.setText(formatted_time)
+
+    def start_countdown(self):
+        self.alarm_start.play()
+        self.timer_alarm.start(2000) 
 
     def start_timer(self):
         self.timer.start(1000)
