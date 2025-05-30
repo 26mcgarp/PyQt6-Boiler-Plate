@@ -60,6 +60,9 @@
          <pointsize>12</pointsize>
         </font>
        </property>
+       <property name="toolTip">
+        <string>Insert Team1's Name</string>
+       </property>
       </widget>
      </item>
      <item row="0" column="0">
@@ -98,6 +101,9 @@
         <font>
          <pointsize>12</pointsize>
         </font>
+       </property>
+       <property name="toolTip">
+        <string>Insert Team2's Name</string>
        </property>
       </widget>
      </item>
@@ -149,6 +155,9 @@
          <pointsize>12</pointsize>
         </font>
        </property>
+       <property name="toolTip">
+        <string>Insert Hours value for the Timer</string>
+       </property>
       </widget>
      </item>
      <item row="2" column="0">
@@ -170,6 +179,9 @@
          <pointsize>12</pointsize>
         </font>
        </property>
+       <property name="toolTip">
+        <string>Insert Seconds value for the Timer</string>
+       </property>
       </widget>
      </item>
      <item row="1" column="1">
@@ -178,6 +190,9 @@
         <font>
          <pointsize>12</pointsize>
         </font>
+       </property>
+       <property name="toolTip">
+        <string>Insert Minutes value for the Timer</string>
        </property>
       </widget>
      </item>
@@ -229,6 +244,9 @@
          <pointsize>12</pointsize>
         </font>
        </property>
+       <property name="toolTip">
+        <string>Insert Score Change Value 3</string>
+       </property>
       </widget>
      </item>
      <item row="2" column="0">
@@ -262,6 +280,9 @@
          <pointsize>12</pointsize>
         </font>
        </property>
+       <property name="toolTip">
+        <string>Insert Score Change Value 2</string>
+       </property>
       </widget>
      </item>
      <item row="0" column="0">
@@ -282,6 +303,9 @@
         <font>
          <pointsize>12</pointsize>
         </font>
+       </property>
+       <property name="toolTip">
+        <string>Insert Score Change Value 1</string>
        </property>
       </widget>
      </item>
@@ -349,9 +373,4 @@
    </hints>
   </connection>
  </connections>
- <buttongroups>
-  <buttongroup name="buttonGroup"/>
-  <buttongroup name="buttonGroup_2"/>
-  <buttongroup name="buttonGroup_3"/>
- </buttongroups>
 </ui>

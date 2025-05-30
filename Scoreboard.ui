@@ -126,7 +126,7 @@
              </font>
             </property>
             <property name="toolTip">
-             <string/>
+             <string>Add/Subtract to Team1's Score</string>
             </property>
             <property name="text">
              <string>Score 1</string>
@@ -145,6 +145,9 @@
              <font>
               <pointsize>20</pointsize>
              </font>
+            </property>
+            <property name="toolTip">
+             <string>Add/Subtract to Team1's Score</string>
             </property>
             <property name="text">
              <string>Score 2</string>
@@ -227,6 +230,9 @@
              <font>
               <pointsize>20</pointsize>
              </font>
+            </property>
+            <property name="toolTip">
+             <string>Add/Subtract to Team1's Score</string>
             </property>
             <property name="text">
              <string>Score 3</string>
@@ -403,6 +409,9 @@
               <pointsize>20</pointsize>
              </font>
             </property>
+            <property name="toolTip">
+             <string>Add/Subtract to Team2's Score</string>
+            </property>
             <property name="text">
              <string>Score 1</string>
             </property>
@@ -421,6 +430,9 @@
               <pointsize>20</pointsize>
              </font>
             </property>
+            <property name="toolTip">
+             <string>Add/Subtract to Team2's Score</string>
+            </property>
             <property name="text">
              <string>Score 2</string>
             </property>
@@ -438,6 +450,9 @@
              <font>
               <pointsize>20</pointsize>
              </font>
+            </property>
+            <property name="toolTip">
+             <string>Add/Subtract to Team2's Score</string>
             </property>
             <property name="text">
              <string>Score 3</string>
@@ -582,6 +597,16 @@
         <property name="text">
          <string>Reset</string>
         </property>
+        <property name="icon">
+         <iconset>
+          <normaloff>../../../../OneDrive - Moreton Bay Colleges/Year 11-12/Digital/Unit 1/FIA 2/reset icon.png</normaloff>../../../../OneDrive - Moreton Bay Colleges/Year 11-12/Digital/Unit 1/FIA 2/reset icon.png</iconset>
+        </property>
+        <property name="iconSize">
+         <size>
+          <width>32</width>
+          <height>32</height>
+         </size>
+        </property>
        </widget>
       </item>
       <item row="2" column="0">
@@ -602,6 +627,16 @@
         </property>
         <property name="text">
          <string>Pause</string>
+        </property>
+        <property name="icon">
+         <iconset>
+          <normaloff>../../../../OneDrive - Moreton Bay Colleges/Year 11-12/Digital/Unit 1/FIA 2/pause icon.png</normaloff>../../../../OneDrive - Moreton Bay Colleges/Year 11-12/Digital/Unit 1/FIA 2/pause icon.png</iconset>
+        </property>
+        <property name="iconSize">
+         <size>
+          <width>32</width>
+          <height>32</height>
+         </size>
         </property>
        </widget>
       </item>
@@ -624,6 +659,16 @@
         <property name="text">
          <string>Start</string>
         </property>
+        <property name="icon">
+         <iconset>
+          <normaloff>../../../../OneDrive - Moreton Bay Colleges/Year 11-12/Digital/Unit 1/FIA 2/start icon.png</normaloff>../../../../OneDrive - Moreton Bay Colleges/Year 11-12/Digital/Unit 1/FIA 2/start icon.png</iconset>
+        </property>
+        <property name="iconSize">
+         <size>
+          <width>32</width>
+          <height>32</height>
+         </size>
+        </property>
        </widget>
       </item>
       <item row="1" column="1">
@@ -640,7 +685,7 @@
          </font>
         </property>
         <property name="toolTip">
-         <string>Reset the</string>
+         <string>Reset Team1's Score</string>
         </property>
         <property name="text">
          <string>Reset Team 1</string>
@@ -660,6 +705,9 @@
           <pointsize>30</pointsize>
          </font>
         </property>
+        <property name="toolTip">
+         <string>Reset Team2's Score</string>
+        </property>
         <property name="text">
          <string>Reset Team 2</string>
         </property>
@@ -677,6 +725,9 @@
          <font>
           <pointsize>30</pointsize>
          </font>
+        </property>
+        <property name="toolTip">
+         <string>Reset Both Teams Scores</string>
         </property>
         <property name="text">
          <string>Reset All Scores</string>
@@ -744,6 +795,10 @@
   </widget>
   <widget class="QStatusBar" name="statusbar"/>
   <action name="actionNew">
+   <property name="icon">
+    <iconset>
+     <normaloff>../../../../OneDrive - Moreton Bay Colleges/Year 11-12/Digital/Unit 1/FIA 2/new icon.png</normaloff>../../../../OneDrive - Moreton Bay Colleges/Year 11-12/Digital/Unit 1/FIA 2/new icon.png</iconset>
+   </property>
    <property name="text">
     <string>New</string>
    </property>
@@ -752,6 +807,10 @@
    </property>
   </action>
   <action name="actionEdit">
+   <property name="icon">
+    <iconset>
+     <normaloff>../../../../OneDrive - Moreton Bay Colleges/Year 11-12/Digital/Unit 1/FIA 2/edit icon.png</normaloff>../../../../OneDrive - Moreton Bay Colleges/Year 11-12/Digital/Unit 1/FIA 2/edit icon.png</iconset>
+   </property>
    <property name="text">
     <string>Edit</string>
    </property>
@@ -762,6 +821,10 @@
    </property>
   </action>
   <action name="actionOpen">
+   <property name="icon">
+    <iconset>
+     <normaloff>../../../../OneDrive - Moreton Bay Colleges/Year 11-12/Digital/Unit 1/FIA 2/open icon.png</normaloff>../../../../OneDrive - Moreton Bay Colleges/Year 11-12/Digital/Unit 1/FIA 2/open icon.png</iconset>
+   </property>
    <property name="text">
     <string>Open</string>
    </property>
@@ -770,6 +833,10 @@
    </property>
   </action>
   <action name="actionSave_2">
+   <property name="icon">
+    <iconset>
+     <normaloff>../../../../OneDrive - Moreton Bay Colleges/Year 11-12/Digital/Unit 1/FIA 2/save icon.png</normaloff>../../../../OneDrive - Moreton Bay Colleges/Year 11-12/Digital/Unit 1/FIA 2/save icon.png</iconset>
+   </property>
    <property name="text">
     <string>Save</string>
    </property>

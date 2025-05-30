@@ -72,9 +72,6 @@ class MainWindow(QMainWindow):
         self.alarm_start.setLoopCount(1)
         self.alarm_start.setVolume(0.5)
 
-        # --- connect signals to slots
-        self.signals()
-
         # check file status
         self.file = False
         self.status_timer = QTimer()
@@ -86,6 +83,16 @@ class MainWindow(QMainWindow):
         self.team2_score = 0
         self.label_team1_score.setText(str(self.team1_score))
         self.label_team2_score.setText(str(self.team2_score))
+
+        self.button_score_pressed = False
+        self.button_status_timer = QTimer()
+        self.button_status_timer.timeout.connect(self.score_button_timeout)
+        self.button_status_timer.start(100)
+        self.button_clicked_timer = QTimer()
+        self.button_clicked_timer.setSingleShot(True)
+
+        # --- connect signals to slots
+        self.signals()
 
     def signals(self):
         """
@@ -109,12 +116,14 @@ class MainWindow(QMainWindow):
         self.pushButton_reset_team2.clicked.connect(self.reset_team2_score)
         self.pushButton_reset_all.clicked.connect(self.reset_scores)
         self.timer_alarm.timeout.connect(self.start_timer)
+        self.button_clicked_timer.timeout.connect(self.enable_score_buttons)
 
     # ---- SLOTS ---- #
     """
     functions that are called from the signals go below here
     """
 
+    # change button status
     def update_button_status(self):
         if not self.file:
             self.button_status = False
@@ -139,6 +148,25 @@ class MainWindow(QMainWindow):
         self.pushButton_reset_team2.setEnabled(self.button_status)
         self.pushButton_reset_all.setEnabled(self.button_status)
 
+    def score_button_timeout(self):
+        if self.button_score_pressed:
+            self.pushButton_team1_score1.setEnabled(False)
+            self.pushButton_team2_score1.setEnabled(False)
+            self.pushButton_team1_score2.setEnabled(False)
+            self.pushButton_team2_score2.setEnabled(False)
+            self.pushButton_team1_score3.setEnabled(False)
+            self.pushButton_team2_score3.setEnabled(False)
+        if not self.button_score_pressed:
+            self.pushButton_team1_score1.setEnabled(True)
+            self.pushButton_team2_score1.setEnabled(True)
+            self.pushButton_team1_score2.setEnabled(True)
+            self.pushButton_team2_score2.setEnabled(True)
+            self.pushButton_team1_score3.setEnabled(True)
+            self.pushButton_team2_score3.setEnabled(True)
+
+    def enable_score_buttons(self):
+        self.button_score_pressed = False
+
     # timer
     def show_time(self):
         formatted_time = self.time.toString("h:mm:ss")
@@ -146,7 +174,7 @@ class MainWindow(QMainWindow):
 
     def start_countdown(self):
         self.alarm_start.play()
-        self.timer_alarm.start(2000) 
+        self.timer_alarm.start(2000)
 
     def start_timer(self):
         self.timer.start(1000)
@@ -261,6 +289,8 @@ class MainWindow(QMainWindow):
             self.team2_score += self.score3
         self.label_team1_score.setText(str(self.team1_score))
         self.label_team2_score.setText(str(self.team2_score))
+        self.button_score_pressed = True
+        self.button_clicked_timer.start(500)
 
     def reset_scores(self):
         self.team1_score = 0
