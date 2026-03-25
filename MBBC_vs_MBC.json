@@ -1,12 +1,12 @@
 {
     "team1_name": "MBBC",
     "team2_name": "MBC",
-    "hours": 1,
-    "minutes": 30,
-    "seconds": 15,
+    "hours": 0,
+    "minutes": 0,
+    "seconds": 30,
     "score1": 1,
-    "score2": -5,
-    "score3": 4,
+    "score2": -1,
+    "score3": 2,
     "team1_score": 0,
     "team2_score": 0
 }
