@@ -12,7 +12,7 @@ class MainWindow(QMainWindow):
         self.ui = Ui_MainWindow()
         self.ui.setupUi(self)
 
-        # --- initialise variables
+        # --- initialise variables 
 
         # --- connect signals to slots
         self.signals()
